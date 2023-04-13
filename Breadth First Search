@@ -1,0 +1,23 @@
+void BFX(int G[][9], int start, int n)
+{
+	queue<int> q;
+	int visited[9] = { 0 };
+	cout << start << " ";
+	visited[start] = 1;
+	q.push(start);
+	while (!q.empty())
+	{
+		start = q.front();
+		q.pop();
+		for (int j = 0; j < 9; j++)
+		{
+			if (G[start][j] == 1 && visited[j] == 0)
+			{
+				cout << j << " ";
+				q.push(j);
+				visited[j] = 1;
+			}
+		}
+
+	}
+}
