@@ -1,0 +1,16 @@
+void DFX(int G[][9], int i, int n)
+{
+	static int visited[9] = { 0 };
+	if (visited[i] == 0)
+	{
+		visited[i] = 1;
+		cout << i << " ";
+		for (int j = 0; j < 9; j++)
+		{
+			if (G[i][j] == 1 && visited[j] == 0)
+			{
+				DFX(G, j, n);
+			}
+		}
+	}
+}
