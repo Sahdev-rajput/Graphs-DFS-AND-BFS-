@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class DisjointSet
+{
+  vector<int> rank,parent,size;
+  public:
+  DisjointSet(int n)
+  {
+      rank.resize(n+1,0);
+      size.resize(n+1,0);
+      parent.resize(n+1);
+      for(int i=0;i<=n;i++)
+      {
+          parent[i]=i;
+      }
+  }
+  
+  int findUltimateParent(int node)
+  {
+      if(node==parent[node])
+      {
+          return node;
+      }
+      else 
+      {
+          return parent[node]=findUltimateParent(parent[node]);
+      }
+  }
+  
+  void UnionByRank(int u,int v)
+  {
+      int ul_u=findUltimateParent(u);
+      int ul_v=findUltimateParent(v);
+      if(rank[ul_u]<rank[ul_v])
+      {
+        parent[ul_u]=ul_v;
+      }
+      else if (rank[ul_u]>rank[ul_v])
+      {
+          parent[ul_v]=ul_u;
+      }
+      else
+      {
+          parent[ul_u]=ul_v;
+          rank[ul_v]+=rank[ul_u];
+      }
+  }
+  
+  void UnionBySize(int u,int v)
+  {
+      int ul_u=findUltimateParent(u);
+      int ul_v=findUltimateParent(v);
+      if(size[ul_u]<size[ul_v])
+      {
+          parent[ul_u]=ul_v;
+      }
+      else if(size[ul_u]>size[ul_v])
+      {
+          parent[ul_v]=ul_u;
+      }
+      else
+      {
+          parent[ul_u]=ul_v;
+          size[ul_v]+=size[ul_u];
+      }
+  }
+};
+int main()
+{
+    DisjointSet ds(7);
+    ds.UnionBySize(1,2);
+    ds.UnionBySize(2,3);
+    ds.UnionBySize(4,5);
+    ds.UnionBySize(6,7);
+     if(ds.findUltimateParent(5)!=ds.findUltimateParent(6))
+     {
+         cout<<"Not Same"<<endl;
+     }
+    ds.UnionBySize(5,6);
+    if(ds.findUltimateParent(5)==ds.findUltimateParent(6))
+    {
+        cout<<"Same"<<endl;
+    }
+    ds.UnionByRank(3,7);
+}
